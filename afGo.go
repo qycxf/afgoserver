@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"afGo/afGoNet"
+)
 
 func main() {
-	fmt.Println("hello afGo")
+
+	s := afGoNet.NewServer("afGo[1.0.2]")
+	s.Server()
 }

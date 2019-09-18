@@ -2,6 +2,7 @@ package afGoNet
 
 import (
 	"afGo/afGoface"
+	"errors"
 	"fmt"
 	"net"
 )
@@ -12,8 +13,27 @@ type AfGoServer struct {
 	Ip        string
 
 	Port int
+
+	//当前的server添加一个router，server注册的链接对应的处理业务
+
+	Router afGoface.IRouter
 }
 
+func CallBackToClint(conn *net.TCPConn, data []byte, cnt int) error {
+
+	//回显业务
+
+	fmt.Println("[conn Handle] CallBackToClient")
+
+	if _, err := conn.Write(data[:cnt]); err != nil {
+		fmt.Println("write back buf err", err)
+
+		return errors.New("CallBackToClient err")
+	}
+
+	return nil
+
+}
 func (s *AfGoServer) Start() {
 
 	fmt.Println("start... afGo")
@@ -34,7 +54,8 @@ func (s *AfGoServer) Start() {
 		}
 
 		fmt.Println("start afGo server success,", s.Name)
-
+		var cid uint32
+		cid = 0
 		for {
 			conn, err := listener.AcceptTCP()
 			if err != nil {
@@ -43,25 +64,11 @@ func (s *AfGoServer) Start() {
 			}
 
 			//已经与客户端建立链接，做一些业务
+			//处理新链接的业务方法和conn进行绑定 得到我们的链接模块
+			dealConn := NewConnection(conn, cid, CallBackToClint)
 
-			go func() {
-				for {
-					buf := make([]byte, 512)
-
-					cnt, err := conn.Read(buf)
-
-					if err != nil {
-						fmt.Println("receive buf err", err)
-						continue
-					}
-
-					if _, err := conn.Write(buf[:cnt]); err != nil {
-						fmt.Println("write back buf err", err)
-						continue
-					}
-				}
-
-			}()
+			cid++
+			go dealConn.Start()
 		}
 
 	}()

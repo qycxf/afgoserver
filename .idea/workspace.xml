@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92243db6-d180-4098-974b-75550b8b8529" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/afGo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/afGoNet/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/afGoface/afGoFace.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoNet/afGoConnection.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoNet/afGoRequest.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoNet/afGoRouter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoNet/afGo_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoface/IConnection.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoface/IRequest.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/afGoface/IRouter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/afGo.go" beforeDir="false" afterPath="$PROJECT_DIR$/afGo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/afGoNet/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/afGoNet/afGoServer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/afGoface/afGoFace.go" beforeDir="false" afterPath="$PROJECT_DIR$/afGoface/IServer.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,30 +24,31 @@
     <session id="546999352">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.0" value="3" />
+          <entry key="project.closed" value="7" />
+          <entry key="project.open.time.0" value="6" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="5" />
+          <entry key="go" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="5" />
+          <entry key="Go" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="900" />
+          <entry key="go" value="3573" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="900" />
+          <entry key="Go" value="3573" />
         </counts>
       </usages-collector>
     </session>
@@ -49,38 +58,86 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/afGo.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/afGoface/afGoFace.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/afGoNet/server.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="53" column="43" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
+            <state relative-caret-position="120">
+              <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
               <folding>
-                <element signature="e#17#51#0" expanded="true" />
+                <element signature="e#14#40#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../go/src/net/tcpsock.go">
+        <entry file="file://$PROJECT_DIR$/afGoface/IServer.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="322" column="5" selection-start-line="322" selection-start-column="5" selection-end-line="322" selection-end-column="5" />
+            <state relative-caret-position="120">
+              <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoNet/afGoServer.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoNet/afGo_test.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/afGoNet/afGoConnection.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
+              <folding>
+                <element signature="e#17#58#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoface/IRouter.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoNet/afGoRouter.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoface/IRequest.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/afGoNet/afGoRequest.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -102,11 +159,24 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/test.test.go" />
-        <option value="$PROJECT_DIR$/afGo_test.go" />
-        <option value="$PROJECT_DIR$/afGo.go" />
         <option value="$PROJECT_DIR$/afGoface.go" />
         <option value="$PROJECT_DIR$/afGoface/afGoFace.go" />
+        <option value="$PROJECT_DIR$/afGotest.go" />
+        <option value="$PROJECT_DIR$/afGotest_test.go" />
+        <option value="$PROJECT_DIR$/afGo_test.go" />
+        <option value="$PROJECT_DIR$/afGoNet/afGo_test.go" />
+        <option value="$PROJECT_DIR$/afGoface/afGoConnection.go" />
         <option value="$PROJECT_DIR$/afGoNet/server.go" />
+        <option value="$PROJECT_DIR$/afGo.go" />
+        <option value="$PROJECT_DIR$/afGoface/iRequest.go" />
+        <option value="$PROJECT_DIR$/afGoface/afGoRequest.go" />
+        <option value="$PROJECT_DIR$/afGoNet/request.go" />
+        <option value="$PROJECT_DIR$/afGoface/afGoRouter.go" />
+        <option value="$PROJECT_DIR$/afGoface/IRouter.go" />
+        <option value="$PROJECT_DIR$/afGoNet/afGoRouter.go" />
+        <option value="$PROJECT_DIR$/afGoface/IServer.go" />
+        <option value="$PROJECT_DIR$/afGoNet/afGoServer.go" />
+        <option value="$PROJECT_DIR$/afGoNet/afGoConnection.go" />
       </list>
     </option>
   </component>
@@ -116,11 +186,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="72" />
-    <option name="y" value="49" />
-    <option name="width" value="1131" />
-    <option name="height" value="790" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="522" />
+    <option name="y" value="29" />
+    <option name="width" value="1082" />
+    <option name="height" value="834" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -172,7 +242,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build afGo.go">
     <configuration name="go build afGo.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="afGo" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -183,22 +253,66 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="TestNewServer in afGo/afGoNet" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="afGo" />
+      <working_directory value="$PROJECT_DIR$/afGoNet" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="afGo/afGoNet" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestNewServer$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go test afGo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="afGo" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="afGo" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Build.go build afGo.go" />
+      <item itemvalue="Go Test.go test afGo" />
+      <item itemvalue="Go Test.TestNewServer in afGo/afGoNet" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build afGo.go" />
+        <item itemvalue="Go Test.TestNewServer in afGo/afGoNet" />
+        <item itemvalue="Go Test.go test afGo" />
       </list>
     </recent_temporary>
   </component>
+  <component name="TestHistory">
+    <history-entry file="go_test_afGo - 2019.08.22 at 18h 10m 35s.xml">
+      <configuration name="go test afGo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_afGo - 2019.08.22 at 18h 10m 47s.xml">
+      <configuration name="go test afGo" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestNewServer_in_afGo_afGoNet - 2019.08.22 at 18h 13m 46s.xml">
+      <configuration name="TestNewServer in afGo/afGoNet" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestNewServer_in_afGo_afGoNet - 2019.08.23 at 09h 40m 38s.xml">
+      <configuration name="TestNewServer in afGo/afGoNet" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="72" y="49" width="1131" height="790" extended-state="0" />
+    <frame x="522" y="29" width="1082" height="834" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23324151" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20865385" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.39826086" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3962264" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -221,33 +335,87 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/afGoface.go" />
+    <entry file="file://$PROJECT_DIR$/afGotest_test.go" />
+    <entry file="file://$PROJECT_DIR$/afGo_test.go" />
     <entry file="file://$PROJECT_DIR$/../../../go/src/net/tcpsock.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
+        <state relative-caret-position="662">
           <caret line="322" column="5" selection-start-line="322" selection-start-column="5" selection-end-line="322" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/afGoface/afGoFace.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/afGo.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="120">
+          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+          <folding>
+            <element signature="e#14#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/afGoNet/server.go">
+    <entry file="file://$PROJECT_DIR$/afGoface/IRequest.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="53" column="43" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
+        <state relative-caret-position="105">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoface/IConnection.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoNet/afGo_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoface/IRouter.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoNet/afGoRequest.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoNet/afGoRouter.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoface/IServer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoNet/afGoServer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/afGoNet/afGoConnection.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
           <folding>
-            <element signature="e#17#51#0" expanded="true" />
+            <element signature="e#17#58#0" expanded="true" />
           </folding>
         </state>
       </provider>
