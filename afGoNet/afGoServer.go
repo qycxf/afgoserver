@@ -11,15 +11,14 @@ type AfGoServer struct {
 	Name      string
 	IpVersion string
 	Ip        string
-
-	Port int
+	Port      int
 
 	//当前的server添加一个router，server注册的链接对应的处理业务
 
 	Router afGoface.IRouter
 }
 
-func CallBackToClint(conn *net.TCPConn, data []byte, cnt int) error {
+func CallBackToClient(conn *net.TCPConn, data []byte, cnt int) error {
 
 	//回显业务
 
@@ -33,6 +32,12 @@ func CallBackToClint(conn *net.TCPConn, data []byte, cnt int) error {
 
 	return nil
 
+}
+
+func (s *AfGoServer) AddRouter(router afGoface.IRouter) {
+
+	s.Router = router
+	fmt.Println("add router success!")
 }
 func (s *AfGoServer) Start() {
 
@@ -65,7 +70,7 @@ func (s *AfGoServer) Start() {
 
 			//已经与客户端建立链接，做一些业务
 			//处理新链接的业务方法和conn进行绑定 得到我们的链接模块
-			dealConn := NewConnection(conn, cid, CallBackToClint)
+			dealConn := NewConnection(conn, cid, s.Router)
 
 			cid++
 			go dealConn.Start()
@@ -97,6 +102,7 @@ func NewServer(name string) afGoface.IServerFace {
 		IpVersion: "tcp4",
 		Ip:        "0.0.0.0",
 		Port:      8999,
+		Router:    nil,
 	}
 
 	return s

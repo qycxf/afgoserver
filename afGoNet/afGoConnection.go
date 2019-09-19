@@ -16,9 +16,6 @@ type Connection struct {
 	//当前链接的状态
 	IsClose bool
 
-	//当前链接所绑定的处理业务的方法API
-	handleAPI afGoface.HandleFunc
-
 	//告知当前链接已经退出的/停止 channel
 	ExitChan chan bool
 
@@ -28,15 +25,15 @@ type Connection struct {
 }
 
 func NewConnection(conn *net.TCPConn, connID uint32,
-	callBack_api afGoface.HandleFunc) *Connection {
+	router afGoface.IRouter) *Connection {
 
 	c := &Connection{
 
-		Conn:      conn,
-		ConnID:    connID,
-		handleAPI: callBack_api,
-		IsClose:   false,
-		ExitChan:  make(chan bool, 1),
+		Conn:     conn,
+		ConnID:   connID,
+		Router:   router,
+		IsClose:  false,
+		ExitChan: make(chan bool, 1),
 	}
 
 	return c
