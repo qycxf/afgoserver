@@ -2,6 +2,7 @@ package afGoNet
 
 import (
 	"afGo/afGoface"
+	"afGo/global"
 	"fmt"
 	"net"
 )
@@ -65,7 +66,7 @@ func (c *Connection) StartReader() {
 	defer c.Stop()
 
 	for {
-		buf := make([]byte, 512)
+		buf := make([]byte, global.Cfg.MaxPackageSize)
 		_, err := c.Conn.Read(buf)
 
 		if err != nil {

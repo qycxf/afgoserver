@@ -1,0 +1,8 @@
+{
+  "Name":           "afGoServer",
+  "Version":        "0.4",
+  "TcpPort":        8999,
+  "Host":           "0.0.0.0",
+  "MaxConn":        100,
+  "MaxPackageSize": 4096
+}

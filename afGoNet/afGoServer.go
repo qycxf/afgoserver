@@ -2,6 +2,7 @@ package afGoNet
 
 import (
 	"afGo/afGoface"
+	"afGo/global"
 	"errors"
 	"fmt"
 	"net"
@@ -41,17 +42,18 @@ func (s *AfGoServer) AddRouter(router afGoface.IRouter) {
 }
 func (s *AfGoServer) Start() {
 
-	fmt.Println("start... afGo")
+	fmt.Println("start... [afGo]")
 	//获取tcp的addr
 
 	go func() {
+
+		fmt.Println(s.Ip)
 		addr, err := net.ResolveTCPAddr(s.IpVersion, fmt.Sprintf("%s:%d", s.Ip, s.Port))
 
 		if err != nil {
 			fmt.Println("start error:", err)
 			return
 		}
-
 		listener, err := net.ListenTCP(s.IpVersion, addr)
 		if err != nil {
 			fmt.Println("listener err:", err)
@@ -98,10 +100,10 @@ func (s *AfGoServer) Server() {
 func NewServer(name string) afGoface.IServerFace {
 
 	s := &AfGoServer{
-		Name:      name,
+		Name:      global.Cfg.Name,
 		IpVersion: "tcp4",
-		Ip:        "0.0.0.0",
-		Port:      8999,
+		Ip:        global.Cfg.Host,
+		Port:      global.Cfg.TcpPort,
 		Router:    nil,
 	}
 
