@@ -5,7 +5,7 @@ import "afGo/afGoface"
 type Request struct {
 	conn afGoface.IConnection
 
-	data []byte
+	msg afGoface.IMessage
 }
 
 func (r *Request) GetConnection() afGoface.IConnection {
@@ -14,5 +14,9 @@ func (r *Request) GetConnection() afGoface.IConnection {
 
 func (r *Request) GetData() []byte {
 
-	return r.data
+	return r.msg.GetData()
+}
+func (r *Request) GetMsgId() uint32 {
+
+	return r.msg.GetMsgId()
 }

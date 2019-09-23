@@ -2,8 +2,9 @@ package afGoNet
 
 import (
 	"afGo/afGoface"
-	"afGo/global"
+	"errors"
 	"fmt"
+	"io"
 	"net"
 )
 
@@ -66,19 +67,49 @@ func (c *Connection) StartReader() {
 	defer c.Stop()
 
 	for {
-		buf := make([]byte, global.Cfg.MaxPackageSize)
-		_, err := c.Conn.Read(buf)
+		//buf := make([]byte, global.Cfg.MaxPackageSize)
+		//_, err := c.Conn.Read(buf)
+		//
+		//if err != nil {
+		//	fmt.Println("recv buf err", err)
+		//
+		//	continue
+		//}
 
+		//创建拆包、解包对象
+		dp := NewDataPack()
+
+		//读取客户端的msd head 二进制流 8个字节
+		headData := make([]byte, dp.GetHeadLen())
+		_, err := io.ReadFull(c.GetTCPConnection(), headData)
 		if err != nil {
-			fmt.Println("recv buf err", err)
-
-			continue
+			fmt.Println("read dataHead err", err)
+			break
 		}
+		msg, err := dp.Unpack(headData)
+		if err != nil {
+			fmt.Println("unpack err", err)
+			break
+		}
+		var data []byte
+		if msg.GetMsgLen() > 0 {
+			data = make([]byte, msg.GetMsgLen())
+			_, err := io.ReadFull(c.GetTCPConnection(), data)
+
+			if err != nil {
+				fmt.Println("read msg data err", err)
+			}
+		}
+		msg.SetData(data)
+
+		//拆包，得到msgId 和dataLen 放在msg消息中
+
+		//根据dataLen 再次读取data 放在msg data中
 		//得到当前conn的数据的request请求数据
 
 		req := Request{
 			conn: c,
-			data: buf,
+			msg:  msg,
 		}
 
 		go func(request afGoface.IRequest) {
@@ -92,6 +123,7 @@ func (c *Connection) StartReader() {
 	}
 
 }
+
 func (c *Connection) Start() {
 
 	fmt.Println("conn start... connId=", c.ConnID)
@@ -115,6 +147,34 @@ func (c *Connection) GetRemoteAddr() net.Addr {
 	return c.Conn.RemoteAddr()
 
 }
-func (c *Connection) Send(data []byte) error {
+
+//send message 方法，将要发送给客户端的数据先进行封装
+func (c *Connection) SendMsg(msgId uint32, data []byte) error {
+
+	if c.IsClose {
+		return errors.New("connection is close")
+	}
+
+	//将data封包
+
+	dp := NewDataPack()
+
+	binaryMsg, err := dp.Pack(&Message{
+		Id:   msgId,
+		Data: data,
+	})
+
+	if err != nil {
+		fmt.Println("Pack error msg")
+		return errors.New("Pack error")
+	}
+
+	_, err = c.Conn.Write(binaryMsg)
+
+	if err != nil {
+		fmt.Println("write msg id", msgId, "error:", err)
+
+		return errors.New("conn write error")
+	}
 	return nil
 }
