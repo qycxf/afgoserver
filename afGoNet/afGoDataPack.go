@@ -1,9 +1,9 @@
 package afGoNet
 
 import (
-	"afGo/afGoface"
-	"afGo/global"
 	"bytes"
+	"cxfProject/afGo/afGoface"
+	"cxfProject/afGo/global"
 	"encoding/binary"
 	"errors"
 )

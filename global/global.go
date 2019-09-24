@@ -1,7 +1,7 @@
 package global
 
 import (
-	"afGo/afGoface"
+	"cxfProject/afGo/afGoface"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"

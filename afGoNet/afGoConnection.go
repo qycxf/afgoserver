@@ -1,7 +1,7 @@
 package afGoNet
 
 import (
-	"afGo/afGoface"
+	"cxfProject/afGo/afGoface"
 	"errors"
 	"fmt"
 	"io"

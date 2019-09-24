@@ -1,6 +1,6 @@
 package afGoNet
 
-import "afGo/afGoface"
+import "cxfProject/afGo/afGoface"
 
 type Request struct {
 	conn afGoface.IConnection

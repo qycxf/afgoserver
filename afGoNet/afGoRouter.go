@@ -1,6 +1,6 @@
 package afGoNet
 
-import "afGo/afGoface"
+import "cxfProject/afGo/afGoface"
 
 //实现router时，先嵌入baseRouter基类，然后根据需求对这个基类进行重写就好了
 type BaseRouter struct {

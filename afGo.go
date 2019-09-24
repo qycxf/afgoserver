@@ -1,8 +1,8 @@
 package main
 
 import (
-	"afGo/afGoNet"
-	"afGo/afGoface"
+	"cxfProject/afGo/afGoNet"
+	"cxfProject/afGo/afGoface"
 	"fmt"
 )
 
