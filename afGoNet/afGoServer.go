@@ -14,9 +14,9 @@ type AfGoServer struct {
 	Ip        string
 	Port      int
 
-	//当前的server添加一个router，server注册的链接对应的处理业务
+	//当前的server的消息管理模块，用来绑定msgId和对应的处理业务api关系
 
-	Router afGoface.IRouter
+	MsgHandler afGoface.IMsgHandle
 }
 
 func CallBackToClient(conn *net.TCPConn, data []byte, cnt int) error {
@@ -35,9 +35,9 @@ func CallBackToClient(conn *net.TCPConn, data []byte, cnt int) error {
 
 }
 
-func (s *AfGoServer) AddRouter(router afGoface.IRouter) {
+func (s *AfGoServer) AddRouter(msgId uint32, router afGoface.IRouter) {
 
-	s.Router = router
+	s.MsgHandler.AddRouter(msgId, router)
 	fmt.Println("add router success!")
 }
 func (s *AfGoServer) Start() {
@@ -72,7 +72,7 @@ func (s *AfGoServer) Start() {
 
 			//已经与客户端建立链接，做一些业务
 			//处理新链接的业务方法和conn进行绑定 得到我们的链接模块
-			dealConn := NewConnection(conn, cid, s.Router)
+			dealConn := NewConnection(conn, cid, s.MsgHandler)
 
 			cid++
 			go dealConn.Start()
@@ -104,7 +104,9 @@ func NewServer(name string) afGoface.IServerFace {
 		IpVersion: "tcp4",
 		Ip:        global.Cfg.Host,
 		Port:      global.Cfg.TcpPort,
-		Router:    nil,
+		MsgHandler: &MsgHandle{
+			Apis: make(map[uint32]afGoface.IRouter),
+		},
 	}
 
 	return s

@@ -21,21 +21,21 @@ type Connection struct {
 	//告知当前链接已经退出的/停止 channel
 	ExitChan chan bool
 
-	//该链接处理的方法
+	//消息的管理msgId和对应的处理业务api关系
 
-	Router afGoface.IRouter
+	MsgHandler afGoface.IMsgHandle
 }
 
 func NewConnection(conn *net.TCPConn, connID uint32,
-	router afGoface.IRouter) *Connection {
+	handle afGoface.IMsgHandle) *Connection {
 
 	c := &Connection{
 
-		Conn:     conn,
-		ConnID:   connID,
-		Router:   router,
-		IsClose:  false,
-		ExitChan: make(chan bool, 1),
+		Conn:       conn,
+		ConnID:     connID,
+		MsgHandler: handle,
+		IsClose:    false,
+		ExitChan:   make(chan bool, 1),
 	}
 
 	return c
@@ -112,11 +112,7 @@ func (c *Connection) StartReader() {
 			msg:  msg,
 		}
 
-		go func(request afGoface.IRequest) {
-			c.Router.PreHandle(request)
-			c.Router.Handle(request)
-			c.Router.PostHandle(request)
-		}(&req)
+		go c.MsgHandler.DoMsgHandler(&req)
 
 		//从路由中，找到注册的绑定的conn对应的router调用
 
