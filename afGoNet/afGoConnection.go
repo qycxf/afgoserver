@@ -2,6 +2,7 @@ package afGoNet
 
 import (
 	"cxfProject/afGo/afGoface"
+	"cxfProject/afGo/global"
 	"errors"
 	"fmt"
 	"io"
@@ -21,6 +22,9 @@ type Connection struct {
 	//告知当前链接已经退出的/停止 channel
 	ExitChan chan bool
 
+	//无缓冲管道，用于读写goroutine之间的的消息通信
+	msgChan chan []byte
+
 	//消息的管理msgId和对应的处理业务api关系
 
 	MsgHandler afGoface.IMsgHandle
@@ -36,6 +40,7 @@ func NewConnection(conn *net.TCPConn, connID uint32,
 		MsgHandler: handle,
 		IsClose:    false,
 		ExitChan:   make(chan bool, 1),
+		msgChan:    make(chan []byte, 0),
 	}
 
 	return c
@@ -52,9 +57,32 @@ func (c *Connection) Stop() {
 	//关闭socket链接
 	c.IsClose = true
 	c.Conn.Close()
+	c.ExitChan <- true
+	close(c.msgChan)
 
-	close(c.ExitChan)
+}
 
+//用于写消息，发送给客户端
+func (c *Connection) StartWriter() {
+
+	fmt.Println("writer msg goroutine is running... ")
+
+	defer fmt.Println(c.GetRemoteAddr().String(), "conn is writer exit!")
+
+	for {
+		select {
+		case data := <-c.msgChan:
+			//有数据写给客户端
+			if _, err := c.Conn.Write(data); err != nil {
+				fmt.Println("send data err,", err)
+				return
+			}
+
+		case <-c.ExitChan:
+			//代表reader已经退出
+			return
+		}
+	}
 }
 
 //链接的读业务方法
@@ -82,6 +110,7 @@ func (c *Connection) StartReader() {
 		//读取客户端的msd head 二进制流 8个字节
 		headData := make([]byte, dp.GetHeadLen())
 		_, err := io.ReadFull(c.GetTCPConnection(), headData)
+
 		if err != nil {
 			fmt.Println("read dataHead err", err)
 			break
@@ -92,12 +121,15 @@ func (c *Connection) StartReader() {
 			break
 		}
 		var data []byte
+
 		if msg.GetMsgLen() > 0 {
 			data = make([]byte, msg.GetMsgLen())
 			_, err := io.ReadFull(c.GetTCPConnection(), data)
 
 			if err != nil {
 				fmt.Println("read msg data err", err)
+
+				break
 			}
 		}
 		msg.SetData(data)
@@ -112,7 +144,14 @@ func (c *Connection) StartReader() {
 			msg:  msg,
 		}
 
-		go c.MsgHandler.DoMsgHandler(&req)
+		if global.Cfg.WorkerPoolSize > 0 {
+			//已经开启了工作池
+			c.MsgHandler.SendMsgToTaskQueue(&req)
+
+		} else {
+
+			go c.MsgHandler.DoMsgHandler(&req)
+		}
 
 		//从路由中，找到注册的绑定的conn对应的router调用
 
@@ -126,6 +165,8 @@ func (c *Connection) Start() {
 
 	//启动从当前链接的读取数据业务
 	go c.StartReader()
+
+	go c.StartWriter()
 	//todo 启动从当前链接写数据的业务
 
 }
@@ -165,12 +206,8 @@ func (c *Connection) SendMsg(msgId uint32, data []byte) error {
 		return errors.New("Pack error")
 	}
 
-	_, err = c.Conn.Write(binaryMsg)
+	//将数据发送到消息管道
+	c.msgChan <- binaryMsg
 
-	if err != nil {
-		fmt.Println("write msg id", msgId, "error:", err)
-
-		return errors.New("conn write error")
-	}
 	return nil
 }

@@ -6,6 +6,7 @@ import (
 	"cxfProject/afGo/global"
 	"encoding/binary"
 	"errors"
+	"fmt"
 )
 
 type DataPack struct {
@@ -24,6 +25,8 @@ func (dp *DataPack) GetHeadLen() uint32 {
 
 //封包方法
 func (dp *DataPack) Pack(msg afGoface.IMessage) ([]byte, error) {
+
+	//创建一个存放bytes字节的缓冲
 
 	dataBuff := bytes.NewBuffer([]byte{})
 
@@ -69,6 +72,8 @@ func (dp *DataPack) Unpack(binaryData []byte) (afGoface.IMessage, error) {
 
 	//判断dataLen 是否已经超出了我们允许的最大包长度
 	if global.Cfg.MaxPackageSize > 0 && msg.DataLen > global.Cfg.MaxPackageSize {
+
+		fmt.Println(" msg.DataLen:", msg.DataLen)
 		return nil, errors.New("too large dataSize!")
 	}
 

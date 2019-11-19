@@ -4,5 +4,6 @@
   "TcpPort":        8999,
   "Host":           "0.0.0.0",
   "MaxConn":        100,
+  "WorkerPoolSize":10,
   "MaxPackageSize": 4096
 }

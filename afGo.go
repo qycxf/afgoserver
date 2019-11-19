@@ -52,7 +52,7 @@ func (this *HelloRouter) PreHandle(request afGoface.IRequest) {
 
 func (this *HelloRouter) Handle(request afGoface.IRequest) {
 
-	fmt.Println("Call Router Handle...")
+	fmt.Println("Call Router Hello Handle...")
 	err := request.GetConnection().SendMsg(201, []byte("hello afGo1.0.6"))
 
 	if err != nil {

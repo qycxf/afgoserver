@@ -43,11 +43,10 @@ func (s *AfGoServer) AddRouter(msgId uint32, router afGoface.IRouter) {
 func (s *AfGoServer) Start() {
 
 	fmt.Println("start... [afGo]")
-	//获取tcp的addr
 
 	go func() {
-
-		fmt.Println(s.Ip)
+		s.MsgHandler.StartWorkerPool()
+		//获取tcp的addr
 		addr, err := net.ResolveTCPAddr(s.IpVersion, fmt.Sprintf("%s:%d", s.Ip, s.Port))
 
 		if err != nil {
@@ -100,13 +99,11 @@ func (s *AfGoServer) Server() {
 func NewServer(name string) afGoface.IServerFace {
 
 	s := &AfGoServer{
-		Name:      global.Cfg.Name,
-		IpVersion: "tcp4",
-		Ip:        global.Cfg.Host,
-		Port:      global.Cfg.TcpPort,
-		MsgHandler: &MsgHandle{
-			Apis: make(map[uint32]afGoface.IRouter),
-		},
+		Name:       global.Cfg.Name,
+		IpVersion:  "tcp4",
+		Ip:         global.Cfg.Host,
+		Port:       global.Cfg.TcpPort,
+		MsgHandler: NewMessageHandle(),
 	}
 
 	return s

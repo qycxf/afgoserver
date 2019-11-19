@@ -20,6 +20,8 @@ type ConfigGlobal struct {
 	Version        string //当前版本号
 	MaxConn        int    //允许的最大连接数
 	MaxPackageSize uint32 //数据包最大值
+	WorkerPoolSize uint32 //当前业务工作worker池的 goroutine数量
+	MaxWorkerSize  uint32 //允许用户最多开启的worker池的 goroutine数量
 }
 
 var Cfg *ConfigGlobal
@@ -35,6 +37,8 @@ func init() {
 		Host:           "0.0.0.0",
 		MaxConn:        100,
 		MaxPackageSize: 4096,
+		WorkerPoolSize: 10,
+		MaxWorkerSize:  1024,
 	}
 
 	Cfg.Reload()
@@ -48,7 +52,7 @@ func (cfg *ConfigGlobal) Reload() {
 	}
 	err = json.Unmarshal(data, &cfg)
 
-	fmt.Printf("read config success!")
+	fmt.Printf("read config success!\n")
 
 	if err != nil {
 		panic(err)
