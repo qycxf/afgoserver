@@ -160,6 +160,6 @@ func (s *AfGoServer) CallOnConnStart(conn afGoface.IConnection) {
 func (s *AfGoServer) CallOnConnStop(conn afGoface.IConnection) {
 	if s.OnConnStop != nil {
 		fmt.Println("Call OnConnStop")
-		s.OnConnStart(conn)
+		s.OnConnStop(conn)
 	}
 }

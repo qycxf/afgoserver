@@ -63,10 +63,24 @@ func (this *HelloRouter) Handle(request afGoface.IRequest) {
 func (this *HelloRouter) PostHandle(request afGoface.IRequest) {
 
 }
+
+func DoConnBegin(conn afGoface.IConnection) {
+
+	fmt.Println("DoConnBegin...")
+
+}
+
+func DoConnEnd(conn afGoface.IConnection) {
+
+	fmt.Println("DoConnEnd...")
+
+}
 func main() {
 
 	s := afGoNet.NewServer("afGo[1.0.5]")
 
+	s.SetOnConnStart(DoConnBegin)
+	s.SetOnConnStop(DoConnEnd)
 	s.AddRouter(0, &PingRouter{})
 	s.AddRouter(1, &HelloRouter{})
 	s.Server()
