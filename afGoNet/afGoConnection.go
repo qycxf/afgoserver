@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"sync"
 )
 
 type Connection struct {
@@ -31,6 +32,12 @@ type Connection struct {
 	//消息的管理msgId和对应的处理业务api关系
 
 	MsgHandler afGoface.IMsgHandle
+
+	//连接属性集合
+
+	property map[string]interface{}
+
+	properLock sync.RWMutex
 }
 
 func NewConnection(server afGoface.IServerFace, conn *net.TCPConn, connID uint32,
@@ -222,4 +229,33 @@ func (c *Connection) SendMsg(msgId uint32, data []byte) error {
 	c.msgChan <- binaryMsg
 
 	return nil
+}
+
+//设置连接属性
+func (c *Connection) SetProperty(key string, value interface{}) {
+
+	c.properLock.Lock()
+	defer c.properLock.Unlock()
+	c.property[key] = value
+}
+
+//移除链接属性
+func (c *Connection) DelProperty(key string) {
+
+	c.properLock.Lock()
+	defer c.properLock.Unlock()
+	delete(c.property, key)
+}
+
+//获取连接属性
+
+func (c *Connection) GetProperty(key string) (interface{}, error) {
+	c.properLock.RLock()
+	defer c.properLock.RUnlock()
+
+	if value, ok := c.property[key]; ok {
+		return value, nil
+	}
+
+	return nil, errors.New("not found property")
 }
