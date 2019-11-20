@@ -58,6 +58,7 @@ func (c *Connection) Stop() {
 		return
 	}
 
+	c.TcpServer.CallOnConnStop(c)
 	//关闭socket链接
 	c.IsClose = true
 	c.Conn.Close()
@@ -176,7 +177,9 @@ func (c *Connection) Start() {
 	go c.StartReader()
 
 	go c.StartWriter()
-	//todo 启动从当前链接写数据的业务
+	//执行对应的hook函数
+
+	c.TcpServer.CallOnConnStart(c)
 
 }
 func (c *Connection) GetTCPConnection() *net.TCPConn {

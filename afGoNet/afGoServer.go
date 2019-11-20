@@ -19,6 +19,13 @@ type AfGoServer struct {
 
 	//该server的连接管理器
 	ConnManage afGoface.IConnectionManage
+
+	//启动后调用的Hook函数
+
+	OnConnStart func(conn afGoface.IConnection)
+
+	//断开时候调用的hook函数
+	OnConnStop func(conn afGoface.IConnection)
 }
 
 func CallBackToClient(conn *net.TCPConn, data []byte, cnt int) error {
@@ -127,4 +134,32 @@ func NewServer(name string) afGoface.IServerFace {
 	}
 
 	return s
+}
+
+//注册hookStart方法
+
+func (s *AfGoServer) SetOnConnStart(hookFun func(conn afGoface.IConnection)) {
+	s.OnConnStart = hookFun
+}
+
+//注册hookStop方法
+func (s *AfGoServer) SetOnConnStop(hookFun func(conn afGoface.IConnection)) {
+
+	s.OnConnStop = hookFun
+}
+
+//调用hookStart方法
+func (s *AfGoServer) CallOnConnStart(conn afGoface.IConnection) {
+	if s.OnConnStart != nil {
+		fmt.Println("Call OnConnStart")
+		s.OnConnStart(conn)
+	}
+}
+
+//调用hookStop方法
+func (s *AfGoServer) CallOnConnStop(conn afGoface.IConnection) {
+	if s.OnConnStop != nil {
+		fmt.Println("Call OnConnStop")
+		s.OnConnStart(conn)
+	}
 }
