@@ -10,6 +10,9 @@ import (
 )
 
 type Connection struct {
+
+	//隶属的server
+	TcpServer afGoface.IServerFace
 	//当前链接的socket TCP套接字
 	Conn *net.TCPConn
 
@@ -30,11 +33,11 @@ type Connection struct {
 	MsgHandler afGoface.IMsgHandle
 }
 
-func NewConnection(conn *net.TCPConn, connID uint32,
+func NewConnection(server afGoface.IServerFace, conn *net.TCPConn, connID uint32,
 	handle afGoface.IMsgHandle) *Connection {
 
 	c := &Connection{
-
+		TcpServer:  server,
 		Conn:       conn,
 		ConnID:     connID,
 		MsgHandler: handle,
@@ -42,6 +45,7 @@ func NewConnection(conn *net.TCPConn, connID uint32,
 		ExitChan:   make(chan bool, 1),
 		msgChan:    make(chan []byte, 0),
 	}
+	c.TcpServer.GetConnMange().AddConnection(c)
 
 	return c
 }
@@ -58,7 +62,12 @@ func (c *Connection) Stop() {
 	c.IsClose = true
 	c.Conn.Close()
 	c.ExitChan <- true
+
+	//从连接管理模块中删除连接
+	c.TcpServer.GetConnMange().RemoveConnection(c)
+
 	close(c.msgChan)
+	close(c.ExitChan)
 
 }
 
